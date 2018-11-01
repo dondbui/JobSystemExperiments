@@ -32,6 +32,13 @@ public class Engine : MonoBehaviour
 
     public void Update()
     {
+        // Don't bother scheduling a new job until this one is done.
+        if (!jobHandle.IsCompleted)
+        {
+            Debug.Log("Not Completed yet");
+            return;
+        }
+
         TestJob job = new TestJob();
 
         jobHandle = job.Schedule(transformAA);
@@ -42,7 +49,8 @@ public class Engine : MonoBehaviour
 
     private void LateUpdate()
     {
-        jobHandle.Complete();
+        // Forces the job handle to finish up and hold up the frame until it is done
+        //jobHandle.Complete();
     }
 
     private void OnApplicationQuit()
